@@ -143,6 +143,7 @@ async function bumpLatest(
 const verbose = ['--loglevel', 'silly'];
 
 interface INpmConfig {
+  deprecateCanaries?: false | string;
   subPackageChangelogs?: boolean;
   setRcToken?: boolean;
   forcePublish?: boolean;
@@ -163,22 +164,27 @@ const checkClean = async (auto: Auto) => {
   );
 };
 
+const defaultOptions: Required<INpmConfig> = {
+  deprecateCanaries:
+    'This is a canary version of %package and should only be used for testing!\n\nPlease use %package@latest instead.',
+  forcePublish: true,
+  setRcToken: true,
+  subPackageChangelogs: true
+};
+
 export default class NPMPlugin implements IPlugin {
   name = 'NPM';
 
   private renderMonorepoChangelog: boolean;
-
-  private readonly subPackageChangelogs: boolean;
-  private readonly setRcToken: boolean;
-  private readonly forcePublish: boolean;
+  private readonly options: Required<INpmConfig>;
 
   constructor(config: INpmConfig = {}) {
     this.renderMonorepoChangelog = true;
-    this.subPackageChangelogs = config.subPackageChangelogs || true;
-    this.setRcToken =
-      typeof config.setRcToken === 'boolean' ? config.setRcToken : true;
-    this.forcePublish =
-      typeof config.forcePublish === 'boolean' ? config.forcePublish : true;
+
+    this.options = {
+      ...defaultOptions,
+      ...config
+    };
   }
 
   @memoize()
@@ -338,7 +344,11 @@ export default class NPMPlugin implements IPlugin {
     auto.hooks.beforeCommitChangelog.tapPromise(
       this.name,
       async ({ commits, bump }) => {
-        if (!isMonorepo() || !auto.release || !this.subPackageChangelogs) {
+        if (
+          !isMonorepo() ||
+          !auto.release ||
+          !this.options.subPackageChangelogs
+        ) {
           return;
         }
 
@@ -395,7 +405,7 @@ export default class NPMPlugin implements IPlugin {
           'lerna',
           'version',
           monorepoBump || version,
-          !isIndependent && this.forcePublish && '--force-publish',
+          !isIndependent && this.options.forcePublish && '--force-publish',
           '--no-commit-hooks',
           '--yes',
           '-m',
@@ -421,7 +431,7 @@ export default class NPMPlugin implements IPlugin {
     auto.hooks.canary.tapPromise(this.name, async (version, postFix) => {
       await checkClean(auto);
 
-      if (this.setRcToken) {
+      if (this.options.setRcToken) {
         await setTokenOnCI(auto.logger);
         auto.logger.verbose.info('Set CI NPM_TOKEN');
       }
@@ -490,6 +500,15 @@ export default class NPMPlugin implements IPlugin {
           : ['publish', ...publishArgs, ...verboseArgs]
       );
 
+      if (this.options.deprecateCanaries) {
+        await execPromise('npm', [
+          'deprecate',
+          `${name}@${canaryVersion}`,
+          this.options.deprecateCanaries.replace(/%package/g, name),
+          ...verboseArgs
+        ]);
+      }
+
       auto.logger.verbose.info('Successfully published canary version');
       return canaryVersion;
     });
@@ -501,7 +520,7 @@ export default class NPMPlugin implements IPlugin {
         auto.logger.log.error('Changed Files:\n', status);
       }
 
-      if (this.setRcToken) {
+      if (this.options.setRcToken) {
         await setTokenOnCI(auto.logger);
         auto.logger.verbose.info('Set CI NPM_TOKEN');
       }
