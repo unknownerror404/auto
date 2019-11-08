@@ -172,6 +172,30 @@ const defaultOptions: Required<INpmConfig> = {
   subPackageChangelogs: true
 };
 
+const deprecate = async (
+  name: string,
+  version: string,
+  message: string,
+  ...args: string[]
+) => {
+  try {
+    console.log('npm', [
+      'deprecate',
+      `${name}@${version}`,
+      message.replace(/%package/g, name),
+      ...args
+    ]);
+    await execPromise('npm', [
+      'deprecate',
+      `${name}@${version}`,
+      message.replace(/%package/g, name),
+      ...args
+    ]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default class NPMPlugin implements IPlugin {
   name = 'NPM';
 
@@ -475,6 +499,16 @@ export default class NPMPlugin implements IPlugin {
           return { error: 'No packages were changed. No canary published.' };
         }
 
+        const deprecationMessage = this.options.deprecateCanaries;
+
+        if (deprecationMessage) {
+          await Promise.all(
+            packages.map(async p => {
+              deprecate(p.name, p.version, deprecationMessage, ...verboseArgs);
+            })
+          );
+        }
+
         return versioned.version.split('+')[0];
       }
 
@@ -501,12 +535,12 @@ export default class NPMPlugin implements IPlugin {
       );
 
       if (this.options.deprecateCanaries) {
-        await execPromise('npm', [
-          'deprecate',
-          `${name}@${canaryVersion}`,
-          this.options.deprecateCanaries.replace(/%package/g, name),
+        await deprecate(
+          name,
+          canaryVersion,
+          this.options.deprecateCanaries,
           ...verboseArgs
-        ]);
+        );
       }
 
       auto.logger.verbose.info('Successfully published canary version');
