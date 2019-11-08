@@ -172,20 +172,6 @@ const defaultOptions: Required<INpmConfig> = {
   subPackageChangelogs: true
 };
 
-const deprecate = async (
-  name: string,
-  version: string,
-  message: string,
-  ...args: string[]
-) => {
-  await execPromise('npm', [
-    'deprecate',
-    `${name}@${version}`,
-    message.replace(/%package/g, name),
-    ...args
-  ]);
-};
-
 export default class NPMPlugin implements IPlugin {
   name = 'NPM';
 
@@ -225,6 +211,28 @@ export default class NPMPlugin implements IPlugin {
       auto.logger.logLevel === 'verbose' ||
       auto.logger.logLevel === 'veryVerbose';
     const verboseArgs = isVerbose ? verbose : [];
+
+    const deprecate = async (
+      name: string,
+      version: string,
+      message: string,
+      ...args: string[]
+    ) => {
+      try {
+        await execPromise('npm', [
+          'deprecate',
+          `${name}@${version}`,
+          message.replace(/%package/g, name),
+          ...args
+        ]);
+      } catch (error) {
+        auto.logger.log.error(
+          `Something went wrong! Couldn't deprecate "${name}@${version}"`
+        );
+        auto.logger.log.error(error);
+        process.exit(1);
+      }
+    };
 
     auto.hooks.beforeShipIt.tap(this.name, async () => {
       if (!isCi) {
