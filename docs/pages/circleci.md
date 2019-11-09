@@ -20,7 +20,7 @@ jobs:
           at: ~/auto
       - run:
           name: Release
-          command: npm run release
+          command: npm auto shipit -w
 
 workflows:
   version: 2
