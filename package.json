@@ -28,7 +28,7 @@
     "start": "npm run build -- --watch",
     "lint": "eslint packages plugins --ext .ts",
     "precommit": "lint-staged",
-    "test": "jest --runInBand",
+    "test": "jest --verbose=true --runInBand",
     "test:coverage": "npm run test -- --coverage",
     "release": "chmod +x ./packages/cli/dist/bin/auto.js && ./packages/cli/dist/bin/auto.js shipit",
     "contributors:add": "all-contributors",

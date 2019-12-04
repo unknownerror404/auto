@@ -49,6 +49,9 @@
     },
     {
       "path": "plugins/all-contributors"
+    },
+    {
+      "path": "plugins/gradle-release-plugin"
     }
   ]
 }
