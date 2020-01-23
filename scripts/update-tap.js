@@ -1,9 +1,9 @@
-const dedent = require('dedent');
+const endent = require('endent');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const createFormula = (version, sha) => dedent`
+const createFormula = (version, sha) => endent`
   class Auto < Formula
     desc "Generate releases based on semantic version labels on pull requests."
     homepage "https://intuit.github.io/auto/home.html"
@@ -27,6 +27,10 @@ module.exports = class {
     this.name = 'brew';
   }
 
+  /**
+   * Setup the plugin
+   * @param {import('@auto-it/core').default} auto
+   */
   apply(auto) {
     auto.hooks.afterVersion.tap('Update brew', () => {
       try {

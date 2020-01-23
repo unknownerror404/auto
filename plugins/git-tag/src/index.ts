@@ -1,4 +1,10 @@
-import { Auto, execPromise, IPlugin } from '@auto-it/core';
+import {
+  Auto,
+  determineNextVersion,
+  execPromise,
+  IPlugin,
+  getCurrentBranch
+} from '@auto-it/core';
 import { inc, ReleaseType } from 'semver';
 
 /** Manage your projects version through just a git tag. */
@@ -25,6 +31,7 @@ export default class GitTagPlugin implements IPlugin {
 
       const lastTag = await auto.git.getLatestTagInBranch();
       const newTag = inc(lastTag, version as ReleaseType);
+      const branch = getCurrentBranch() || '';
 
       if (!newTag) {
         return;
@@ -36,8 +43,35 @@ export default class GitTagPlugin implements IPlugin {
         '--follow-tags',
         '--set-upstream',
         'origin',
-        auto.baseBranch
+        branch || auto.baseBranch
       ]);
+    });
+
+    auto.hooks.next.tapPromise(this.name, async (preReleaseVersions, bump) => {
+      if (!auto.git) {
+        return preReleaseVersions;
+      }
+
+      const prereleaseBranches = auto.config?.prereleaseBranches!;
+      const branch = getCurrentBranch() || '';
+      const prereleaseBranch = prereleaseBranches.includes(branch)
+        ? branch
+        : prereleaseBranches[0];
+      const lastRelease = await auto.git.getLatestRelease();
+      const current =
+        (await auto.git.getLastTagNotInBaseBranch(prereleaseBranch)) ||
+        (await auto.getCurrentVersion(lastRelease));
+      const prerelease = determineNextVersion(
+        lastRelease,
+        current,
+        bump,
+        prereleaseBranch
+      );
+
+      await execPromise('git', ['tag', prerelease]);
+      await execPromise('git', ['push', '--tags']);
+
+      return preReleaseVersions;
     });
   }
 }

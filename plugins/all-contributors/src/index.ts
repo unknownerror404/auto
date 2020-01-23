@@ -60,13 +60,16 @@ const defaultOptions: IAllContributorsPluginOptions = {
     'dependabot-preview[bot]',
     'greenkeeper[bot]',
     'dependabot[bot]',
-    'fossabot'
+    'fossabot',
+    'renovate',
+    'renovate[bot]',
+    'renovate-approve'
   ],
   types: {
     doc: ['**/*.mdx', '**/*.md', '**/docs/**/*', '**/documentation/**/*'],
     example: ['**/*.stories*', '**/*.story.*'],
     infra: ['**/.circle/**/*', '**/.github/**/*', '**/travis.yml'],
-    test: ['**/*.test.*'],
+    test: ['**/*.test.*', '**/test/**', '**/__tests__/**'],
     code: ['**/src/**/*', '**/lib/**/*', '**/package.json', '**/tsconfig.json']
   }
 };
@@ -133,8 +136,12 @@ export default class AllContributorsPlugin implements IPlugin {
               return isMatch;
             })
             .forEach(contribution => {
-              authors.forEach(({ username }) => {
+              authors.forEach(({ username, hash }) => {
                 if (!username) {
+                  return;
+                }
+
+                if (commit.hash !== hash) {
                   return;
                 }
 
@@ -165,7 +172,7 @@ export default class AllContributorsPlugin implements IPlugin {
               auto.logger.log.info(`Adding "${username}"'s contributions...`);
 
               execSync(
-                `npx all-contributors add ${username} ${[
+                `npx all-contributors-cli add ${username} ${[
                   ...newContributions
                 ].join(',')}`,
                 { stdio: 'inherit' }

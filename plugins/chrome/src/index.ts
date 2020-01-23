@@ -91,7 +91,7 @@ export default class ChromeWebStorePlugin implements IPlugin {
 
     auto.hooks.getAuthor.tapPromise(this.name, async () => {
       auto.logger.verbose.info(
-        `${this.name}: Getting author information from package.json`
+        `${this.name}: Getting author information from manifest.json`
       );
 
       const manifest = await getManifest(this.options.manifest);
@@ -111,12 +111,12 @@ export default class ChromeWebStorePlugin implements IPlugin {
       );
     });
 
-    auto.hooks.getPreviousVersion.tapPromise(this.name, async prefixRelease => {
+    auto.hooks.getPreviousVersion.tapPromise(this.name, async () => {
       const manifest = await getManifest(this.options.manifest);
-      const version = prefixRelease(manifest.version);
+      const version = auto.prefixRelease(manifest.version);
 
       auto.logger.verbose.info(
-        `${this.name}: Got previous version from package.json`,
+        `${this.name}: Got previous version from manifest.json`,
         version
       );
 

@@ -10,7 +10,13 @@ enum SEMVER {
   noVersion = ''
 }
 
-export type IVersionLabels = Map<VersionLabel, string[]>;
+export const preVersionMap = new Map([
+  [SEMVER.major, SEMVER.premajor],
+  [SEMVER.minor, SEMVER.preminor],
+  [SEMVER.patch, SEMVER.prepatch]
+]);
+
+export type IVersionLabels = Map<VersionLabel | 'none', string[]>;
 
 export default SEMVER;
 
@@ -30,8 +36,6 @@ export function getHigherSemverTag(left: SEMVER, right: string): SEMVER {
 interface ISemVerOptions {
   /** Only publish changes when "release" label is present */
   onlyPublishWithReleaseLabel?: boolean;
-  /** Labels to treat as "skip-release" labels */
-  skipReleaseLabels?: string[];
 }
 
 /**
@@ -42,54 +46,48 @@ interface ISemVerOptions {
 export function calculateSemVerBump(
   labels: string[][],
   labelMap: IVersionLabels,
-  { onlyPublishWithReleaseLabel, skipReleaseLabels = [] }: ISemVerOptions = {}
+  { onlyPublishWithReleaseLabel }: ISemVerOptions = {}
 ) {
   const labelSet = new Set<string>();
-  const skip = labelMap.get('skip-release') || [];
-
-  skip.forEach(skipLabel => {
-    if (!skipReleaseLabels.includes(skipLabel)) {
-      skipReleaseLabels.push(skipLabel);
-    }
-  });
+  const skipReleaseLabels = labelMap.get('skip') || [];
 
   labels.forEach(pr => {
     pr.forEach(label => {
       const userLabel = [...labelMap.entries()].find(pair =>
         pair[1].includes(label)
       );
-      labelSet.add(userLabel ? userLabel[0] : label);
+
+      if (userLabel) {
+        labelSet.add(userLabel[0]);
+      }
     });
   });
 
   let skipRelease = false;
-  let isPrerelease = false;
 
-  if (labels.length > 0 && labels[0].length > 0) {
-    const prereleaseLabels = labelMap.get('prerelease') || [];
+  if (labels.length > 0) {
     const releaseLabels = labelMap.get('release') || [];
-    isPrerelease = labels[0].some(label => prereleaseLabels.includes(label));
+
     skipRelease = onlyPublishWithReleaseLabel
       ? !labels[0].some(label => releaseLabels.includes(label))
       : labels[0].some(label => skipReleaseLabels.includes(label));
+  }
+
+  // If PRs only have none or skip labels, skip the release
+  const onlyNoReleaseLabels = [...labelSet].reduce(
+    (condition, releaseType) =>
+      condition && (releaseType === 'none' || releaseType === 'skip'),
+    true
+  );
+
+  if (labelSet.size > 0 && onlyNoReleaseLabels) {
+    return SEMVER.noVersion;
   }
 
   const version = [...labelSet].reduce(getHigherSemverTag, SEMVER.patch);
 
   if (skipRelease) {
     return SEMVER.noVersion;
-  }
-
-  if (isPrerelease) {
-    if (version === SEMVER.major) {
-      return SEMVER.premajor;
-    }
-
-    if (version === SEMVER.minor) {
-      return SEMVER.preminor;
-    }
-
-    return SEMVER.prepatch;
   }
 
   return version;

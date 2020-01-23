@@ -22,6 +22,30 @@ auto init
 
 These options can be set exclusively in the `.autorc` and do not exist as CLI flags.
 
+### versionBranches
+
+Create and manage old major releases.
+
+```json
+{
+  "versionBranches": true,
+  // or customize the branch prefix
+  "versionBranches": "major-"
+}
+```
+
+### Prerelease Branches
+
+You can configure what branches `auto` treats as prerelease branches.
+By default only `next` is treated as a prerelease branch.
+If you configure `prereleaseBranches` it will override the default.
+
+```json
+{
+  "prereleaseBranches": ["next", "beta"]
+}
+```
+
 ### Extending
 
 If you want to share your auto configuration between projects you can use the `extends` property. This property will load from a module's package.json or from a custom path. It's expected that the extended configuration be under the `auto` key in the package.json file.
@@ -69,90 +93,118 @@ If you're extending from a local file it can be any file in JSON format or a `pa
 
 ### Labels
 
-To override any of the default labels use the `labels` section in the `.autorc`.
+To customize your project's labels use the `labels` section in your `.autorc`.
 
 ```json
 {
-  "labels": {
-    "major": "Version: Major",
-    "minor": "Version: Minor",
-    "patch": "Version: Patch",
-    "skip-release": "NO!",
-    "release": "Autobots, rollout!",
-    "prerelease": "beta"
-  }
+  "labels": [
+    { "releaseType": "major", "name": "Version: Major" },
+    { "releaseType": "minor", "name": "Version: Minor" },
+    { "releaseType": "patch", "name": "Version: Patch" },
+    { "releaseType": "skip", "name": "NO!" },
+    { "releaseType": "release", "name": "Autobots, rollout!" }
+  ]
 }
 ```
+
+<details><summary>Click here to see the default label configuration</summary>
+
+```json
+[
+  {
+    "name": "major",
+    "changelogTitle": "💥  Breaking Change",
+    "description": "Increment the major version when merged",
+    "releaseType": "major"
+  },
+  {
+    "name": "minor",
+    "changelogTitle": "🚀  Enhancement",
+    "description": "Increment the minor version when merged",
+    "releaseType": "minor"
+  },
+  {
+    "name": "patch",
+    "changelogTitle": "🐛  Bug Fix",
+    "description": "Increment the patch version when merged",
+    "releaseType": "patch"
+  },
+  {
+    "name": "skip-release",
+    "description": "Preserve the current version when merged",
+    "releaseType": "skip"
+  },
+  {
+    "name": "release",
+    "description": "Create a release when this pr is merged",
+    "releaseType": "release"
+  },
+  {
+    "name": "internal",
+    "changelogTitle": "🏠  Internal",
+    "description": "Changes only affect the internal API",
+    "releaseType": "none"
+  },
+  {
+    "name": "documentation",
+    "changelogTitle": "📝  Documentation",
+    "description": "Changes only affect the documentation",
+    "releaseType": "none"
+  }
+]
+```
+
+</details>
 
 #### Label Customization
 
 You can customize everything about a label
 
 - `name` - The label text used for the label. If omitted defaults to the `key` value
-- `title` - The title to use in the changelog
+- `releaseType` - The type of release to trigger (major, minor, patch, skip, release, or none)
+- `overwrite` - Overwrite the default label(s) associated with the `releaseType`. (default: `false`)
+- `changelogTitle` - The title to use in the changelog
 - `description` - The description to use when creating the label
 - `color` - The color of the label. Can be specified as a string in any of [these](https://github.com/bgrins/TinyColor#accepted-string-input) ways. If not specified the color is random
 
 ```json
 {
-  "labels": {
-    "major": {
+  "labels": [
+    {
       "name": "Version: Major",
-      "title": "The API has changed:",
+      "changelogTitle": "The API has changed:",
       "description": "Add this label to a PR to create a major release",
-      "color": "blue"
-    },
-    ...
-  }
+      "color": "blue",
+      "releaseType": "major"
+    }
+  ]
 }
 ```
 
-#### Multiple Labels
+#### Release Type: `none`
 
-You have can multiple labels for each of the default labels.
-
-```json
-{
-  "labels": {
-    "major": [
-      {
-        "name": "BREAKING",
-        "title": "SUPER BREAKING CHANGED",
-      },
-      {
-        "name": "Version: Major",
-        "title": "The API has changed:",
-        "description": "Add this label to a PR to create a major release",
-      }
-    ],
-    ...
-  }
-}
-```
-
-::: message is-warning
-:warning: If you override any of the semantic versioning labels the default values are overridden too! Make sure to include that label if you still want it to be used during version calculation.
-:::
+A label with the `none` release type will not create a release when merged.
+If paired with a SEMVER label, the release is not skipped.
 
 ```json
 {
-  "labels": {
-    "minor": [
-      "minor",
-      {
-        "name": "New Component",
-        "title": "🧩 New Component",
-        "description": "A new component has been added to the design-system",
-      }
-    ],
-    ...
-  }
+  "labels": [
+    {
+      "name": "documentation",
+      "releaseType": "none"
+    }
+  ]
 }
 ```
 
 #### Changelog Titles
 
-By default auto will create sections in the changelog for the following labels.
+Each PR included in the release will be assigned to a label section based upon the matching label with the highest `releaseType` that has a `changelogTitle`.
+
+- Priority order of `releaseType` from highest to lowest is: major, minor, patch, and then all others
+- If a PR has multiple labels of the same `releaseType`, then the PR is assigned based upon the label that is assigned first in the config
+
+By default auto will create sections in the changelog for the following labels:
 
 - major
 - minor
@@ -160,21 +212,30 @@ By default auto will create sections in the changelog for the following labels.
 - internal
 - documentation
 
+For example:
+
+- Using the default config, if a given PR has the labels `minor` and `internal`, then it will be included in the `minor` label section
+- Using the default config, if a given PR has the labels `documentation` and `internal`, then it will be included in the `internal` label section
+
+##### Updating Default Label Changelog Titles
+
 To customize the title for the section in the changelog you can
 
 ```json
 {
-  "labels": {
-    "documentation": {
-      "title": "Docz"
-    },
-    ...
-  }
+  "labels": [
+    {
+      "name": "documentation",
+      "changelogTitle": "Docz"
+    }
+  ]
 }
 ```
 
+##### Adding Additional Changelog Title Sections
+
 If you want more sections in your changelog to further detail the change-set you can
-use the `labels` section to add more. Any label in the label section with a title
+use the `labels` section to add more. Any label in the label section with a changelogTitle
 will become a special section in your changelog.
 
 The following adds a `typescript` label to the project that we can use to denote changes
@@ -182,39 +243,31 @@ related to a TypeScript re-write.
 
 ```json
 {
-  "labels": {
-    "typescript": {
-      "title": "TypeScript Rewrite"
-    },
-    ...
-  }
+  "labels": [
+    {
+      "name": "typescript",
+      "changelogTitle": "TypeScript Rewrite"
+    }
+  ]
 }
 ```
 
-#### Multiple `skip-release`
+##### Removing Default Label Changelog Title Sections
 
-You can configure multiple labels to skip releases.
+You can remove the existing default label sections by adding a custom overwrite label with the same `releaseType`.
 
-```json
-{
-  "skipReleaseLabels": ["documentation", "project-files"]
-}
-```
-
-#### Arbitrary Labels
-
-If you want to `auto create-labels` to add other labels to your project (ones that aren't used for
-versioning or the changelog), you can use the `labels` section. Just omit the `title` property.
+The following removes the default internal and documentation label sections:
 
 ```json
 {
-  "labels": {
-    "good first issue": {
-      "description": "This is an issue that first time contributors can tackle easily",
-      "color": "purple"
-    },
-    ...
-  }
+  "labels": [
+    {
+      "name": "Custom Doc Label",
+      "changelogTitle": "Docz",
+      "releaseType": "none",
+      "overwrite": true
+    }
+  ]
 }
 ```
 
@@ -231,6 +284,16 @@ Configure what your repo considers the "master" branch.
 ```json
 {
   "baseBranch": "trunk"
+}
+```
+
+### Only Publish With Release Label
+
+Configure the default release behavior.
+
+```json
+{
+  "onlyPublishWithReleaseLabel": true
 }
 ```
 

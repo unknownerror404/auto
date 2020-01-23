@@ -40,7 +40,10 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/3680126?v=4",
       "profile": "https://github.com/Aghassi",
       "contributions": [
-        "infra"
+        "infra",
+        "test",
+        "code",
+        "doc"
       ]
     },
     {
@@ -59,7 +62,8 @@
       "profile": "https://github.com/zephraph",
       "contributions": [
         "bug",
-        "code"
+        "code",
+        "doc"
       ]
     },
     {
@@ -97,7 +101,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/8219313?v=4",
       "profile": "https://github.com/bnigh",
       "contributions": [
-        "code"
+        "code",
+        "doc",
+        "test"
       ]
     },
     {
@@ -151,6 +157,24 @@
       "name": "rdipika94",
       "avatar_url": "https://avatars3.githubusercontent.com/u/12812259?v=4",
       "profile": "https://github.com/rdipika",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "bmuenzenmeyer",
+      "name": "Brian Muenzenmeyer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/298435?v=4",
+      "profile": "http://brianmuenzenmeyer.com",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sarah-vanderlaan",
+      "name": "Sarah van der Laan",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/32620284?v=4",
+      "profile": "https://github.com/sarah-vanderlaan",
       "contributions": [
         "doc"
       ]

@@ -23,6 +23,24 @@ export default class TestPlugin implements IPlugin {
 }
 ```
 
+Or in JavaScript:
+
+```js
+module.exports = class TestPlugin {
+  constructor(config) {
+    this.config = config;
+  }
+
+  /**
+   * Setup the plugin
+   * @param {import('@auto-it/core').default} auto
+   */
+  apply(auto) {
+    // hook into auto
+  }
+};
+```
+
 ## Constructor
 
 In the constructor you have access to any plugin specific config provided in the `.autorc`. It might be useful to write a more type-safe interface for your config.
@@ -133,9 +151,10 @@ auto.hooks.afterAddToChangelog.tap(
 
 #### afterRelease
 
-Ran after the `release` command has run. This hooks gets the following arguments:
+Ran after the `release` command has run. This async hooks gets the following arguments:
 
-- version - version that was just released
+- lastVersion - the version that existed prior to the current release
+- nextVersion - version that was just released
 - commits - the commits in the release
 - releaseNotes - generated release notes for the release
 - response - the response returned from making the release
@@ -143,7 +162,7 @@ Ran after the `release` command has run. This hooks gets the following arguments
 ```ts
 auto.hooks.afterRelease.tap(
   'MyPlugin',
-  async ({ version, commits, releaseNotes, response }) => {
+  async ({ lastVersion, nextVersion, commits, releaseNotes, response }) => {
     // do something
   }
 );
@@ -152,6 +171,20 @@ auto.hooks.afterRelease.tap(
 #### afterShipIt
 
 Ran after the `shipit` command has run.
+
+- `newVersion` - The new version that was release
+- `commits` - the commits in the release
+- `data`
+  - `context` - The type of release that was created (`latest`, `next`, `canary`, or `old`)
+
+```ts
+auto.hooks.afterShipIt.tap(
+  'MyPlugin',
+  async (newVersion, commits, { context }) => {
+    // do something
+  }
+);
+```
 
 #### getAuthor
 
@@ -172,11 +205,11 @@ auto.hooks.getAuthor.tapPromise('NPM', async () => {
 Get the previous version. Typically from a package distribution description file.
 
 ```ts
-auto.hooks.getPreviousVersion.tapPromise('NPM', async prefixRelease => {
+auto.hooks.getPreviousVersion.tapPromise('NPM', async () => {
   const { version } = JSON.parse(await readFile('package.json', 'utf-8'));
 
   if (version) {
-    return prefixRelease(
+    return auto.prefixRelease(
       JSON.parse(await readFile('package.json', 'utf-8')).version
     );
   }
@@ -469,7 +502,7 @@ export default class NPMPlugin {
       }
     });
 
-    auto.hooks.getPreviousVersion.tapPromise('NPM', async prefixRelease => {
+    auto.hooks.getPreviousVersion.tapPromise('NPM', async () => {
       const { version } = JSON.parse(await readFile('package.json', 'utf-8'));
 
       auto.logger.log.info(
@@ -478,7 +511,7 @@ export default class NPMPlugin {
       );
 
       if (version) {
-        return prefixRelease(
+        return auto.prefixRelease(
           JSON.parse(await readFile('package.json', 'utf-8')).version
         );
       }

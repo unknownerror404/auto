@@ -1,17 +1,19 @@
-import dedent from 'dedent';
+import endent from 'endent';
 import Changelog, { IGenerateReleaseNotesOptions } from '../changelog';
 import LogParse from '../log-parse';
-import { defaultLabelDefinition } from '../release';
+import { defaultLabels } from '../release';
 import { dummyLog } from '../utils/logger';
 
 import makeCommitFromMsg from './make-commit-from-msg';
+import SEMVER from '../semver';
 
 const testOptions = (): IGenerateReleaseNotesOptions => ({
   owner: 'foobar',
   repo: 'auto',
   baseUrl: 'https://github.custom.com/foobar/auto',
-  labels: defaultLabelDefinition,
-  baseBranch: 'master'
+  labels: defaultLabels,
+  baseBranch: 'master',
+  prereleaseBranches: ['next']
 });
 
 const logParse = new LogParse();
@@ -22,8 +24,9 @@ describe('createUserLink', () => {
       owner: '',
       repo: '',
       baseUrl: 'https://github.custom.com/',
-      labels: defaultLabelDefinition,
-      baseBranch: 'master'
+      labels: defaultLabels,
+      baseBranch: 'master',
+      prereleaseBranches: ['next']
     });
     changelog.loadDefaultHooks();
 
@@ -61,8 +64,9 @@ describe('createUserLink', () => {
       owner: '',
       repo: '',
       baseUrl: 'https://github.custom.com/',
-      labels: defaultLabelDefinition,
-      baseBranch: 'master'
+      labels: defaultLabels,
+      baseBranch: 'master',
+      prereleaseBranches: ['next']
     });
     changelog.loadDefaultHooks();
 
@@ -165,16 +169,14 @@ describe('generateReleaseNotes', () => {
 
   test('should create note for PR commits without labels with custom patch label', async () => {
     const options = testOptions();
-    options.labels = {
-      ...options.labels,
-      patch: [
-        {
-          name: 'Version: Patch',
-          title: '🐛  Bug Fix',
-          description: 'N/A'
-        }
-      ]
-    };
+    options.labels = [
+      {
+        name: 'Version: Patch',
+        changelogTitle: '🐛  Bug Fix',
+        description: 'N/A',
+        releaseType: SEMVER.patch
+      }
+    ];
 
     const changelog = new Changelog(dummyLog(), options);
     changelog.loadDefaultHooks();
@@ -192,6 +194,78 @@ describe('generateReleaseNotes', () => {
       makeCommitFromMsg('Some Feature (#1234)', {
         labels: ['someOtherNonConfigLabel']
       })
+    ]);
+
+    expect(await changelog.generateReleaseNotes(normalized)).toMatchSnapshot();
+  });
+
+  test('should prefer section with highest releaseType for PR with multiple labels', async () => {
+    const options = testOptions();
+    options.labels = [
+      {
+        name: 'Internal',
+        changelogTitle: 'Internal Section',
+        releaseType: 'none'
+      },
+      {
+        name: 'Version: Minor',
+        changelogTitle: 'Minor Section',
+        releaseType: SEMVER.minor
+      }
+    ];
+
+    const changelog = new Changelog(dummyLog(), options);
+    changelog.loadDefaultHooks();
+    const normalized = await logParse.normalizeCommits([
+      makeCommitFromMsg('Some Feature (#1234)', {
+        labels: ['Internal', 'Version: Minor']
+      })
+    ]);
+
+    expect(await changelog.generateReleaseNotes(normalized)).toMatchSnapshot();
+  });
+
+  test('should prefer section defined first in config for PR with multiple labels of same releaseType', async () => {
+    const options = testOptions();
+    options.labels = [
+      {
+        name: 'Internal',
+        changelogTitle: 'Internal Section',
+        releaseType: 'none'
+      },
+      {
+        name: 'Typescript',
+        changelogTitle: 'Typescript Section',
+        releaseType: 'none'
+      }
+    ];
+
+    const changelog = new Changelog(dummyLog(), options);
+    changelog.loadDefaultHooks();
+    const normalized = await logParse.normalizeCommits([
+      makeCommitFromMsg('Some Feature (#1234)', {
+        labels: ['Typescript', 'Internal']
+      })
+    ]);
+
+    expect(await changelog.generateReleaseNotes(normalized)).toMatchSnapshot();
+  });
+
+  test('should prefer section of default label for PR with multiple labels of same releaseType', async () => {
+    const options = testOptions();
+    options.labels = [
+      ...options.labels,
+      {
+        name: 'Minor2',
+        changelogTitle: 'Minor 2 Section',
+        releaseType: SEMVER.minor
+      }
+    ];
+
+    const changelog = new Changelog(dummyLog(), options);
+    changelog.loadDefaultHooks();
+    const normalized = await logParse.normalizeCommits([
+      makeCommitFromMsg('Some Feature (#1234)', { labels: ['Minor2', 'minor'] })
     ]);
 
     expect(await changelog.generateReleaseNotes(normalized)).toMatchSnapshot();
@@ -284,13 +358,13 @@ describe('generateReleaseNotes', () => {
 
   test('should order the section major, minor, patch, then the rest', async () => {
     const options = testOptions();
-    options.labels = {
-      documentation: options.labels.documentation,
-      internal: options.labels.internal,
-      patch: options.labels.patch,
-      minor: options.labels.minor,
-      major: options.labels.major
-    };
+    options.labels = [
+      options.labels.find(l => l.name === 'documentation')!,
+      options.labels.find(l => l.name === 'internal')!,
+      options.labels.find(l => l.name === 'patch')!,
+      options.labels.find(l => l.name === 'minor')!,
+      options.labels.find(l => l.name === 'major')!
+    ];
 
     const changelog = new Changelog(dummyLog(), options);
     changelog.loadDefaultHooks();
@@ -388,16 +462,15 @@ describe('generateReleaseNotes', () => {
 
   test('should be able to customize pushToBaseBranch title', async () => {
     const options = testOptions();
-    options.labels = {
+    options.labels = [
       ...options.labels,
-      pushToBaseBranch: [
-        {
-          name: 'pushToBaseBranch',
-          title: 'Custom Title',
-          description: 'N/A'
-        }
-      ]
-    };
+      {
+        name: 'pushToBaseBranch',
+        changelogTitle: 'Custom Title',
+        description: 'N/A',
+        releaseType: 'none'
+      }
+    ];
 
     const changelog = new Changelog(dummyLog(), options);
     changelog.loadDefaultHooks();
@@ -424,18 +497,54 @@ describe('generateReleaseNotes', () => {
     expect(await changelog.generateReleaseNotes(commits)).toMatchSnapshot();
   });
 
+  test('should omit changelog item for next branches', async () => {
+    const options = testOptions();
+    const changelog = new Changelog(dummyLog(), options);
+    changelog.loadDefaultHooks();
+
+    const commits = await logParse.normalizeCommits([
+      {
+        hash: '2',
+        files: [],
+        authorName: 'Adam Dierkens',
+        authorEmail: 'adam@dierkens.com',
+        subject: 'First Feature (#1235)',
+        labels: ['minor']
+      }
+    ]);
+
+    expect(
+      await changelog.generateReleaseNotes([
+        {
+          ...commits[0],
+          hash: '1',
+          files: [],
+          authorName: 'Adam Dierkens',
+          authorEmail: 'adam@dierkens.com',
+          subject: 'V8\n\n',
+          labels: [''],
+          pullRequest: {
+            base: 'intuit/next',
+            number: 123,
+            body: '# Release Notes\n\nfoobar'
+          }
+        },
+        ...commits
+      ])
+    ).toMatchSnapshot();
+  });
+
   test('should be able to customize titles', async () => {
     const options = testOptions();
-    options.labels = {
+    options.labels = [
       ...options.labels,
-      minor: [
-        {
-          name: 'Version: Minor',
-          title: 'Woo Woo New Features',
-          description: 'N/A'
-        }
-      ]
-    };
+      {
+        name: 'Version: Minor',
+        changelogTitle: 'Woo Woo New Features',
+        description: 'N/A',
+        releaseType: SEMVER.minor
+      }
+    ];
 
     const changelog = new Changelog(dummyLog(), options);
     changelog.loadDefaultHooks();
@@ -456,17 +565,20 @@ describe('generateReleaseNotes', () => {
 
   test('should merge sections with same changelog title', async () => {
     const options = testOptions();
-    options.labels = {
+    options.labels = [
       ...options.labels,
-      minor: [
-        { name: 'new-component', title: 'Enhancement' },
-        {
-          name: 'Version: Minor',
-          title: 'Enhancement',
-          description: 'N/A'
-        }
-      ]
-    };
+      {
+        name: 'new-component',
+        changelogTitle: 'Enhancement',
+        releaseType: SEMVER.minor
+      },
+      {
+        name: 'Version: Minor',
+        changelogTitle: 'Enhancement',
+        description: 'N/A',
+        releaseType: SEMVER.minor
+      }
+    ];
 
     const changelog = new Changelog(dummyLog(), options);
     changelog.loadDefaultHooks();
@@ -507,7 +619,7 @@ describe('generateReleaseNotes', () => {
         labels: ['minor']
       }
     ]);
-    commits[0].pullRequest!.body = dedent`
+    commits[0].pullRequest!.body = endent`
       # Why
 
       Some words
@@ -538,7 +650,7 @@ describe('generateReleaseNotes', () => {
         labels: ['minor']
       }
     ]);
-    commits[0].pullRequest!.body = dedent`
+    commits[0].pullRequest!.body = endent`
       # Why
 
       Some words
@@ -573,7 +685,7 @@ describe('generateReleaseNotes', () => {
         labels: ['minor']
       }
     ]);
-    commits[0].pullRequest!.body = dedent`
+    commits[0].pullRequest!.body = endent`
       # Why
 
       Some words
@@ -598,7 +710,7 @@ describe('generateReleaseNotes', () => {
       }
     ]);
     commits[0].authors[0].username = 'renovate-bot';
-    commits[0].pullRequest!.body = dedent`
+    commits[0].pullRequest!.body = endent`
       # Why
 
       Some words
@@ -639,7 +751,7 @@ describe('generateReleaseNotes', () => {
         labels: ['minor', 'no-notes']
       }
     ]);
-    commits[0].pullRequest!.body = dedent`
+    commits[0].pullRequest!.body = endent`
       # Why
 
       Some words

@@ -4,7 +4,7 @@ import Changelog, {
   IGenerateReleaseNotesOptions
 } from '@auto-it/core/dist/changelog';
 import LogParse from '@auto-it/core/dist/log-parse';
-import { defaultLabelDefinition } from '@auto-it/core/dist/release';
+import { defaultLabels } from '@auto-it/core/dist/release';
 import { dummyLog } from '@auto-it/core/dist/utils/logger';
 import {
   makeChangelogHooks,
@@ -111,8 +111,9 @@ const testOptions = (): IGenerateReleaseNotesOptions => ({
   owner: 'foobar',
   repo: 'auto',
   baseUrl: 'https://github.custom.com/foobar/auto',
-  labels: defaultLabelDefinition,
-  baseBranch: 'master'
+  labels: defaultLabels,
+  baseBranch: 'master',
+  prereleaseBranches: ['next']
 });
 const logParse = new LogParse();
 

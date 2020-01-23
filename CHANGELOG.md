@@ -1,3 +1,655 @@
+# v9.1.3 (Thu Jan 23 2020)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/npm`
+  - Fix commiting sub-package changelogs [#885](https://github.com/intuit/auto/pull/885) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.1.2 (Thu Jan 23 2020)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - fix omitting renovate release notes when a user manually rebases the renovate PR [#884](https://github.com/intuit/auto/pull/884) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.1.1 (Thu Jan 23 2020)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - Fix onlyPublishWithReleaseLabel w/o labels [#883](https://github.com/intuit/auto/pull/883) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- `@auto-it/chrome`, `@auto-it/maven`
+  - add clearer docs around creating GH_TOKEN [#882](https://github.com/intuit/auto/pull/882) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.1.0 (Tue Jan 21 2020)
+
+#### 🚀  Enhancement
+
+- `@auto-it/core`
+  - canary: try to match commit to PR if not found in env [#812](https://github.com/intuit/auto/pull/812) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🔩 Dependency Updates
+
+- Bump file-type from 13.0.3 to 13.1.1 [#879](https://github.com/intuit/auto/pull/879) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-import from 2.19.1 to 2.20.0 [#878](https://github.com/intuit/auto/pull/878) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump enquirer from 2.3.2 to 2.3.4 [#876](https://github.com/intuit/auto/pull/876) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.15.0 to 2.16.0 [#875](https://github.com/intuit/auto/pull/875) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 20.3.0 to 20.3.1 [#874](https://github.com/intuit/auto/pull/874) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump typescript from 3.7.4 to 3.7.5 [#873](https://github.com/intuit/auto/pull/873) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump husky from 4.0.7 to 4.0.10 [#872](https://github.com/intuit/auto/pull/872) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`
+  - Bump @types/node from 12.12.21 to 13.1.8 [#881](https://github.com/intuit/auto/pull/881) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]) [@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/all-contributors`
+  - Bump all-contributors-cli from 6.12.0 to 6.13.0 [#880](https://github.com/intuit/auto/pull/880) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`
+  - Bump @octokit/rest from 16.36.0 to 16.37.0 [#877](https://github.com/intuit/auto/pull/877) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+#### Authors: 2
+
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.0.2 (Tue Jan 14 2020)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/all-contributors`
+  - Fix running all-contributors when not installed [#871](https://github.com/intuit/auto/pull/871) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.0.1 (Mon Jan 13 2020)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - handle PR numbers that don't exist in repo/fork [#870](https://github.com/intuit/auto/pull/870) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v9.0.0 (Mon Jan 13 2020)
+
+#### 💥  Breaking Change
+
+- `auto`
+  - require Node.js >=10.x [#869](https://github.com/intuit/auto/pull/869) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🐛  Bug Fix
+
+- `@auto-it/npm`
+  - match npm behavior for scoped packages [#868](https://github.com/intuit/auto/pull/868) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🔩 Dependency Updates
+
+- Bump eslint-plugin-jsdoc from 20.0.0 to 20.3.0 [#865](https://github.com/intuit/auto/pull/865) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump semver from 7.0.0 to 7.1.1 [#837](https://github.com/intuit/auto/pull/837) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump husky from 3.1.0 to 4.0.7 [#862](https://github.com/intuit/auto/pull/862) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]) [@hipstersmoothie](https://github.com/hipstersmoothie))
+- Bump tapable from 2.0.0-beta.8 to 2.0.0-beta.9 [#847](https://github.com/intuit/auto/pull/847) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.12.0 to 2.15.0 [#860](https://github.com/intuit/auto/pull/860) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jest from 23.1.1 to 23.6.0 [#861](https://github.com/intuit/auto/pull/861) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump ts-jest from 24.2.0 to 24.3.0 [#863](https://github.com/intuit/auto/pull/863) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-config-prettier from 6.7.0 to 6.9.0 [#849](https://github.com/intuit/auto/pull/849) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint from 6.7.2 to 6.8.0 [#851](https://github.com/intuit/auto/pull/851) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 18.4.4 to 20.0.0 [#856](https://github.com/intuit/auto/pull/856) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump lerna from 3.19.0 to 3.20.2 [#854](https://github.com/intuit/auto/pull/854) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @types/jest from 24.0.24 to 24.0.25 [#852](https://github.com/intuit/auto/pull/852) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @octokit/plugin-throttling from 2.7.0 to 2.7.1 [#846](https://github.com/intuit/auto/pull/846) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/upload-assets`
+  - Bump file-type from 12.4.2 to 13.0.3 [#859](https://github.com/intuit/auto/pull/859) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]) [@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`
+  - Bump @octokit/rest from 16.35.2 to 16.36.0 [#850](https://github.com/intuit/auto/pull/850) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/all-contributors`
+  - Bump all-contributors-cli from 6.11.2 to 6.12.0 [#866](https://github.com/intuit/auto/pull/866) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`, `@auto-it/crates`, `@auto-it/npm`
+  - Bump env-ci from 4.5.2 to 5.0.1 [#867](https://github.com/intuit/auto/pull/867) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]) [@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 2
+
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.8.0 (Thu Jan 02 2020)
+
+#### 🚀  Enhancement
+
+- `@auto-it/slack`
+  - fix: prevent slack from default publishing on prerelease branches [#829](https://github.com/intuit/auto/pull/829) ([@Aghassi](https://github.com/Aghassi))
+
+#### 📝  Documentation
+
+- docs: fixed incorrect afterRelease hook object [#842](https://github.com/intuit/auto/pull/842) ([@Aghassi](https://github.com/Aghassi))
+- `@auto-it/core`
+  - Add documentation and tests for label changelog label section assignment behavior [#822](https://github.com/intuit/auto/pull/822) ([@bnigh](https://github.com/bnigh))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/jest from 24.0.23 to 24.0.24 [#838](https://github.com/intuit/auto/pull/838) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/eslint-plugin from 2.11.0 to 2.12.0 [#839](https://github.com/intuit/auto/pull/839) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 18.4.3 to 18.4.4 [#840](https://github.com/intuit/auto/pull/840) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- [Security] Bump handlebars from 4.1.2 to 4.5.3 [#843](https://github.com/intuit/auto/pull/843) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @types/node from 12.12.18 to 12.12.21 [#836](https://github.com/intuit/auto/pull/836) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump env-ci from 4.5.1 to 4.5.2 [#835](https://github.com/intuit/auto/pull/835) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.11.0 to 2.12.0 [#834](https://github.com/intuit/auto/pull/834) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump typescript from 3.7.3 to 3.7.4 [#833](https://github.com/intuit/auto/pull/833) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump change-case from 4.1.0 to 4.1.1 [#832](https://github.com/intuit/auto/pull/832) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump file-type from 12.4.0 to 12.4.2 [#831](https://github.com/intuit/auto/pull/831) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+#### Authors: 3
+
+- [@bnigh](https://github.com/bnigh)
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- David ([@Aghassi](https://github.com/Aghassi))
+
+---
+
+# v8.7.3 (Fri Dec 20 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - next: check origin head instead of local branch for tags [#827](https://github.com/intuit/auto/pull/827) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.7.2 (Fri Dec 20 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - find the last greatest tag to help with botched releases [#826](https://github.com/intuit/auto/pull/826) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.7.1 (Thu Dec 19 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`, `@auto-it/npm`
+  - Add more logs for next release calculation [#824](https://github.com/intuit/auto/pull/824) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.7.0 (Thu Dec 19 2019)
+
+#### 🚀  Enhancement
+
+- `@auto-it/core`
+  - add context of what type of release was made during shipit [#821](https://github.com/intuit/auto/pull/821) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.6.3 (Thu Dec 19 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`, `@auto-it/git-tag`, `@auto-it/npm`, `@auto-it/released`
+  - determine next version using by omitting tags from master [#820](https://github.com/intuit/auto/pull/820) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.6.2 (Wed Dec 18 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - only access auto login if it all exists [#819](https://github.com/intuit/auto/pull/819) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.6.1 (Wed Dec 18 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - canary hook can return void to not bail [#817](https://github.com/intuit/auto/pull/817) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- update docs to show JS plugins and how to use versionBranches [#816](https://github.com/intuit/auto/pull/816) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.5.0 (Tue Dec 17 2019)
+
+#### 🚀  Enhancement
+
+- `auto`, `@auto-it/core`, `@auto-it/all-contributors`, `@auto-it/chrome`, `@auto-it/conventional-commits`, `@auto-it/crates`, `@auto-it/first-time-contributor`, `@auto-it/git-tag`, `@auto-it/jira`, `@auto-it/maven`, `@auto-it/npm`, `@auto-it/omit-commits`, `@auto-it/omit-release-notes`, `@auto-it/released`, `@auto-it/s3`, `@auto-it/slack`, `@auto-it/twitter`, `@auto-it/upload-assets`
+  - Version branches [#814](https://github.com/intuit/auto/pull/814) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.4.1 (Mon Dec 16 2019)
+
+#### 🐛  Bug Fix
+
+- `auto`, `@auto-it/npm`
+  - alias the canary scope [#813](https://github.com/intuit/auto/pull/813) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.4.0 (Mon Dec 16 2019)
+
+#### 🚀  Enhancement
+
+- `@auto-it/core`
+  - version: detect prerelease branch [#811](https://github.com/intuit/auto/pull/811) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.3.0 (Mon Dec 16 2019)
+
+#### 🚀  Enhancement
+
+- `@auto-it/core`, `@auto-it/git-tag`, `@auto-it/npm`
+  - release: detect prerelease branch + be smarter about commit range [#810](https://github.com/intuit/auto/pull/810) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/node from 12.12.15 to 12.12.18 [#808](https://github.com/intuit/auto/pull/808) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-prettier from 3.1.1 to 3.1.2 [#807](https://github.com/intuit/auto/pull/807) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.10.0 to 2.11.0 [#806](https://github.com/intuit/auto/pull/806) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump pkg from 4.4.1 to 4.4.2 [#805](https://github.com/intuit/auto/pull/805) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/eslint-plugin from 2.10.0 to 2.11.0 [#803](https://github.com/intuit/auto/pull/803) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump array.prototype.flatmap from 1.2.2 to 1.2.3 [#801](https://github.com/intuit/auto/pull/801) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`
+  - Bump @octokit/rest from 16.35.0 to 16.35.2 [#809](https://github.com/intuit/auto/pull/809) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`, `@auto-it/chrome`, `@auto-it/crates`, `@auto-it/git-tag`, `@auto-it/maven`, `@auto-it/npm`, `@auto-it/twitter`
+  - Bump semver from 6.3.0 to 7.0.0 [#804](https://github.com/intuit/auto/pull/804) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`
+  - Bump https-proxy-agent from 3.0.1 to 4.0.0 [#802](https://github.com/intuit/auto/pull/802) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+#### Authors: 2
+
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.2.0 (Sun Dec 15 2019)
+
+#### 🚀  Enhancement
+
+- `auto`, `@auto-it/core`
+  - release: add flag to publish prerelease [#800](https://github.com/intuit/auto/pull/800) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- Slight improvements to label configuration docs [#799](https://github.com/intuit/auto/pull/799) ([@bnigh](https://github.com/bnigh))
+
+#### 📚 Blog Post
+
+- touch up blog post [#798](https://github.com/intuit/auto/pull/798) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 2
+
+- [@bnigh](https://github.com/bnigh)
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.1.3 (Sat Dec 14 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`, `@auto-it/jira`, `@auto-it/npm`
+  - omit next branch PR Title from being in release notes [#796](https://github.com/intuit/auto/pull/796) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.1.2 (Sat Dec 14 2019)
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - Fix `none` releases: they were not handling extra labels [#797](https://github.com/intuit/auto/pull/797) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.1.1 (Sat Dec 14 2019)
+
+#### 📝  Documentation
+
+- `@auto-it/npm`
+  - add diagrams [#795](https://github.com/intuit/auto/pull/795) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
+# v8.1.0 (Sat Dec 14 2019)
+
+#### 🚀  Enhancement
+
+- `@auto-it/npm`
+  - add canaryScope option for more secure PR builds [#792](https://github.com/intuit/auto/pull/792) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`
+  - fix bug where merging a none would skip previously meged semver bump [#794](https://github.com/intuit/auto/pull/794) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🏠  Internal
+
+- add context [#790](https://github.com/intuit/auto/pull/790) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/npm`
+  - V8.1 [#793](https://github.com/intuit/auto/pull/793) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- docs(publishing): add period after sentence [#788](https://github.com/intuit/auto/pull/788) ([@bmuenzenmeyer](https://github.com/bmuenzenmeyer))
+
+#### Authors: 2
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- Brian Muenzenmeyer ([@bmuenzenmeyer](https://github.com/bmuenzenmeyer))
+
+---
+
+# v8.0.0 (Wed Dec 11 2019)
+
+### Release Notes
+
+_From #758_
+
+![Final-banner-REd (1)](https://user-images.githubusercontent.com/1192452/70372434-e20d4100-1893-11ea-97a4-047aeec86db9.png)
+
+<!-- GITHUB_RELEASE PR BODY: prerelease-version -->
+
+_From #751_
+
+Label configuration just got a whole lot simpler 🎉 
+
+1. Labels can now only be supplied as an array of label objects.
+
+```json
+{
+  "labels": [
+    { "releaseType": "major", "name": "Version: Major" },
+    { "releaseType": "minor", "name": "Version: Minor" },
+    { "releaseType": "patch", "name": "Version: Patch" },
+  ]
+}
+```
+
+2. Instead of using `skipReleaseLabels` just set the label's `type` to `skip`
+
+```json
+{
+  "labels": [
+    { "releaseType": "skip", "name": "NO!" }
+  ]
+}
+```
+
+3. Overwrite default labels using `overwrite`
+
+```json
+{
+  "labels": [
+    { "releaseType": "major", "name": "Version: Major", "overwrite": true },
+  ]
+}
+```
+
+4. Add `none` `releaseType`. This will act as a `skip-release` unless paired with a SEMVER label
+
+```json
+{
+  "labels": [
+    { "releaseType": "none", "name": "documentation" },
+  ]
+}
+```
+
+5. Changed `title` to `changelogTitle`.
+
+```json
+{
+  "labels": [
+    { "changelogTitle": "New Docs Yo!", "name": "documentation" },
+  ]
+}
+```
+
+---
+
+#### 💥  Breaking Change
+
+- `auto`, `@auto-it/core`, `@auto-it/all-contributors`, `@auto-it/chrome`, `@auto-it/conventional-commits`, `@auto-it/crates`, `@auto-it/first-time-contributor`, `@auto-it/git-tag`, `@auto-it/jira`, `@auto-it/maven`, `@auto-it/npm`, `@auto-it/released`, `@auto-it/s3`, `@auto-it/slack`, `@auto-it/twitter`, `@auto-it/upload-assets`
+  - Release v8 [#758](https://github.com/intuit/auto/pull/758) ([@hipstersmoothie](https://github.com/hipstersmoothie) [@adierkens](https://github.com/adierkens))
+- `auto`, `@auto-it/core`
+  - Deprecate "--very-verbose, -w" in favor of "-vv" [#771](https://github.com/intuit/auto/pull/771) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/conventional-commits`, `@auto-it/jira`, `@auto-it/npm`, `@auto-it/released`, `@auto-it/slack`
+  - Simplify label configuration [#751](https://github.com/intuit/auto/pull/751) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`, `@auto-it/npm`
+  - move git clean check to core [#746](https://github.com/intuit/auto/pull/746) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`, `@auto-it/chrome`, `@auto-it/crates`, `@auto-it/git-tag`, `@auto-it/maven`, `@auto-it/npm`
+  - change getPreviousVersion hook args. can access prefixRelease from root class instead [#734](https://github.com/intuit/auto/pull/734) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`, `@auto-it/released`
+  - remove old use of prerelease label + add prerelease label to released plugin [#729](https://github.com/intuit/auto/pull/729) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🚀  Enhancement
+
+- `@auto-it/core`
+  - add release notes to prerelease PRs [#777](https://github.com/intuit/auto/pull/777) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`
+  - next: post comment w/prerelease version on prerelease PR branches [#773](https://github.com/intuit/auto/pull/773) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/upload-assets`
+  - Add glob support to the upload-assets plugin [#770](https://github.com/intuit/auto/pull/770) ([@adierkens](https://github.com/adierkens))
+- `@auto-it/core`, `@auto-it/git-tag`, `@auto-it/npm`
+  - move determineNextVersion to core [#747](https://github.com/intuit/auto/pull/747) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`
+  - implment dry-run flag for next command [#733](https://github.com/intuit/auto/pull/733) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/git-tag`
+  - implement prerelease branches for git-tag plugin [#732](https://github.com/intuit/auto/pull/732) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/npm`
+  - shipit: add flag to only publish to 'latest' tag when "release" label is present [#731](https://github.com/intuit/auto/pull/731) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/npm`, `@auto-it/released`, `@auto-it/slack`
+  - allow user to configure what branches are treated as prerelease branches [#730](https://github.com/intuit/auto/pull/730) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/npm`
+  - Add ability for "next" branch publishing [#726](https://github.com/intuit/auto/pull/726) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🐛  Bug Fix
+
+- `@auto-it/core`, `@auto-it/all-contributors`, `@auto-it/npm`
+  - only grant contributions for work in commit [#786](https://github.com/intuit/auto/pull/786) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`
+  - Fix some changelog bugs [#784](https://github.com/intuit/auto/pull/784) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`
+  - omit commits that have already been released [#783](https://github.com/intuit/auto/pull/783) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`, `@auto-it/released`, `@auto-it/slack`
+  - do not call afterRelease hooks during dry run [#780](https://github.com/intuit/auto/pull/780) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/all-contributors`, `@auto-it/chrome`, `@auto-it/conventional-commits`, `@auto-it/crates`, `@auto-it/first-time-contributor`, `@auto-it/git-tag`, `@auto-it/jira`, `@auto-it/maven`, `@auto-it/npm`, `@auto-it/omit-commits`, `@auto-it/omit-release-notes`, `@auto-it/released`, `@auto-it/s3`, `@auto-it/slack`, `@auto-it/twitter`, `@auto-it/upload-assets`
+  - do not add labels or comments to prerelease branch PRs [#778](https://github.com/intuit/auto/pull/778) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]) [@hipstersmoothie](https://github.com/hipstersmoothie) [@zephraph](https://github.com/zephraph) [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) [@sarah-vanderlaan](https://github.com/sarah-vanderlaan))
+- `@auto-it/npm`
+  - fix branch detection in NPM plugin [#774](https://github.com/intuit/auto/pull/774) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `auto`, `@auto-it/core`, `@auto-it/all-contributors`, `@auto-it/chrome`, `@auto-it/conventional-commits`, `@auto-it/crates`, `@auto-it/first-time-contributor`, `@auto-it/git-tag`, `@auto-it/jira`, `@auto-it/maven`, `@auto-it/npm`, `@auto-it/omit-commits`, `@auto-it/omit-release-notes`, `@auto-it/released`, `@auto-it/s3`, `@auto-it/slack`, `@auto-it/twitter`, `@auto-it/upload-assets`
+  - Don't create a version commit for prereleases [#768](https://github.com/intuit/auto/pull/768) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/npm`
+  - ensure canary versions dont use extra bumps [#735](https://github.com/intuit/auto/pull/735) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/released`
+  - don't run released plugin on "next" branch PRs [#728](https://github.com/intuit/auto/pull/728) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`
+  - must set git user before publishing so we know we can commit [#727](https://github.com/intuit/auto/pull/727) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🏠  Internal
+
+- reset monorepo version for next branch [#769](https://github.com/intuit/auto/pull/769) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/core`, `@auto-it/git-tag`, `@auto-it/npm`, `@auto-it/s3`
+  - add tests [#779](https://github.com/intuit/auto/pull/779) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/upload-assets`
+  - More resilient test case [#772](https://github.com/intuit/auto/pull/772) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- `@auto-it/conventional-commits`
+  - Update README to include required npm plugin [#776](https://github.com/intuit/auto/pull/776) ([@sarah-vanderlaan](https://github.com/sarah-vanderlaan))
+
+#### 🔩 Dependency Updates
+
+- Bump eslint-plugin-import from 2.18.2 to 2.19.1 [#767](https://github.com/intuit/auto/pull/767) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump change-case from 4.0.0 to 4.1.0 [#766](https://github.com/intuit/auto/pull/766) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @types/node from 12.12.14 to 12.12.15 [#765](https://github.com/intuit/auto/pull/765) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.9.0 to 2.10.0 [#764](https://github.com/intuit/auto/pull/764) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump typescript from 3.7.2 to 3.7.3 [#763](https://github.com/intuit/auto/pull/763) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/eslint-plugin from 2.9.0 to 2.10.0 [#762](https://github.com/intuit/auto/pull/762) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump pkg from 4.4.0 to 4.4.1 [#760](https://github.com/intuit/auto/pull/760) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 18.4.1 to 18.4.3 [#759](https://github.com/intuit/auto/pull/759) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/all-contributors`
+  - Bump all-contributors-cli from 6.11.1 to 6.11.2 [#761](https://github.com/intuit/auto/pull/761) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+#### 📚 Blog Post
+
+- create v8 announcement blog [#782](https://github.com/intuit/auto/pull/782) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 6
+
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- Brian Muenzenmeyer ([@bmuenzenmeyer](https://github.com/bmuenzenmeyer))
+- Justin Bennett ([@zephraph](https://github.com/zephraph))
+- Sarah van der Laan ([@sarah-vanderlaan](https://github.com/sarah-vanderlaan))
+
+---
+
+# v7.17.0 (Fri Dec 06 2019)
+
+#### 🚀  Enhancement
+
+- `@auto-it/all-contributors`
+  - add more defaults to all-contributors plugin [#756](https://github.com/intuit/auto/pull/756) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 📝  Documentation
+
+- docs(introduction): fix typo [#755](https://github.com/intuit/auto/pull/755) ([@bmuenzenmeyer](https://github.com/bmuenzenmeyer))
+- fix docs build issue [#753](https://github.com/intuit/auto/pull/753) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- Making the docs a little more solid... [#752](https://github.com/intuit/auto/pull/752) ([@zephraph](https://github.com/zephraph))
+- Slight improvements to GitHub actions docs [#750](https://github.com/intuit/auto/pull/750) ([@zephraph](https://github.com/zephraph))
+- Update autorc.md [#713](https://github.com/intuit/auto/pull/713) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- `@auto-it/released`
+  - remove references to "npm" plugin in "released" docs [#712](https://github.com/intuit/auto/pull/712) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### 🔩 Dependency Updates
+
+- Bump eslint-plugin-jsdoc from 18.1.4 to 18.1.5 [#725](https://github.com/intuit/auto/pull/725) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jest from 23.0.4 to 23.1.1 [#745](https://github.com/intuit/auto/pull/745) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump lint-staged from 9.4.3 to 9.5.0 [#737](https://github.com/intuit/auto/pull/737) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump change-case from 3.1.0 to 4.0.0 [#744](https://github.com/intuit/auto/pull/744) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint from 6.7.1 to 6.7.2 [#738](https://github.com/intuit/auto/pull/738) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @types/node from 12.12.12 to 12.12.14 [#736](https://github.com/intuit/auto/pull/736) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/eslint-plugin from 2.8.0 to 2.9.0 [#741](https://github.com/intuit/auto/pull/741) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump ts-jest from 24.1.0 to 24.2.0 [#742](https://github.com/intuit/auto/pull/742) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump pom-parser from 1.1.1 to 1.2.0 [#740](https://github.com/intuit/auto/pull/740) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 18.1.5 to 18.4.1 [#739](https://github.com/intuit/auto/pull/739) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.7.0 to 2.9.0 [#724](https://github.com/intuit/auto/pull/724) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint from 6.6.0 to 6.7.1 [#719](https://github.com/intuit/auto/pull/719) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-plugin-jsdoc from 18.0.1 to 18.1.4 [#718](https://github.com/intuit/auto/pull/718) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/parser from 2.7.0 to 2.8.0 [#720](https://github.com/intuit/auto/pull/720) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump lerna from 3.18.4 to 3.19.0 [#714](https://github.com/intuit/auto/pull/714) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump lint-staged from 9.4.2 to 9.4.3 [#717](https://github.com/intuit/auto/pull/717) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @typescript-eslint/eslint-plugin from 2.7.0 to 2.8.0 [#716](https://github.com/intuit/auto/pull/716) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump @types/node from 12.12.8 to 12.12.12 [#722](https://github.com/intuit/auto/pull/722) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Bump eslint-config-prettier from 6.5.0 to 6.7.0 [#723](https://github.com/intuit/auto/pull/723) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/core`, `@auto-it/slack`
+  - Bump @types/node-fetch from 2.5.3 to 2.5.4 [#721](https://github.com/intuit/auto/pull/721) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/all-contributors`
+  - Bump all-contributors-cli from 6.10.0 to 6.11.0 [#715](https://github.com/intuit/auto/pull/715) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- `@auto-it/all-contributors`
+  - Bump all-contributors-cli from 6.11.0 to 6.11.1 [#743](https://github.com/intuit/auto/pull/743) ([@dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+
+#### Authors: 4
+
+- [@dependabot-preview[bot]](https://github.com/dependabot-preview[bot])
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+- Brian Muenzenmeyer ([@bmuenzenmeyer](https://github.com/bmuenzenmeyer))
+- Justin Bennett ([@zephraph](https://github.com/zephraph))
+
+---
+
 # v7.16.3 (Mon Nov 18 2019)
 
 #### 🏠  Internal

@@ -1,53 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Release buildSearchQuery generates a valid query 1`] = `
-"{
-    hash_abc123: search(query: \\"repo:Andrew/test abc123\\", type: ISSUE, first: 1) {
-edges {
-  node {
-    ... on PullRequest {
-      number
-      state
-      body
-      labels(first: 10) {
-        edges {
-          node {
-            name
-          }
-        }
-      }
-    }
-  }
-}
-}
-
-    hash_3def78: search(query: \\"repo:Andrew/test 3def78\\", type: ISSUE, first: 1) {
-      edges {
-        node {
-          ... on PullRequest {
-            number
-            state
-            body
-            labels(first: 10) {
-              edges {
-                node {
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    rateLimit {
-      limit
-      cost
-      remaining
-      resetAt
-    }
-  }"
-`;
-
 exports[`Release generateReleaseNotes should allow user to configure section headings 1`] = `
 "#### 💥  Breaking Change
 
@@ -166,6 +118,7 @@ Array [
     "authorName": "Andrew Lisowski",
     "authors": Array [
       Object {
+        "hash": undefined,
         "login": "andrew",
         "name": "Andrew Lisowski",
         "username": "andrew",
@@ -204,6 +157,38 @@ Array [
 ]
 `;
 
+exports[`Release getCommits should include PR opener in authors (in case of external rebase) 1`] = `
+Array [
+  Object {
+    "authorEmail": "adam@dierkens.com",
+    "authorName": "Adam Dierkens",
+    "authors": Array [
+      Object {
+        "email": "adam@dierkens.com",
+        "name": "Adam Dierkens",
+      },
+      Object {
+        "email": "renovate@automation.com",
+        "login": "renovate",
+        "name": "Renovate",
+        "username": "renovate",
+      },
+    ],
+    "files": Array [],
+    "hash": "foo",
+    "labels": Array [
+      "skip-release",
+      "minor",
+    ],
+    "pullRequest": Object {
+      "body": undefined,
+      "number": 124,
+    },
+    "subject": "Feature",
+  },
+]
+`;
+
 exports[`Release getCommits should match rebased commits to PRs 1`] = `
 Array [
   Object {
@@ -229,6 +214,7 @@ Array [
     "authors": Array [
       Object {
         "email": "adam@dierkens.com",
+        "hash": "1a2b",
         "name": "Adam Dierkens",
       },
     ],
@@ -271,6 +257,7 @@ Array [
     "authors": Array [
       Object {
         "email": "adam@dierkens.com",
+        "hash": "1a2b",
         "name": "Adam Dierkens",
       },
     ],
@@ -288,6 +275,81 @@ Array [
 ]
 `;
 
+exports[`Release getCommits should not resolve authors with no PR commits 1`] = `
+Array [
+  Object {
+    "authorEmail": "adam@dierkens.com",
+    "authorName": "Adam Dierkens",
+    "authors": Array [
+      Object {
+        "email": "adam@dierkens.com",
+        "hash": "foo",
+        "name": "Adam Dierkens",
+      },
+    ],
+    "files": Array [],
+    "hash": "foo",
+    "labels": Array [],
+    "pullRequest": undefined,
+    "subject": "First",
+  },
+  Object {
+    "authorEmail": "adam@dierkens.com",
+    "authorName": "Adam Dierkens",
+    "authors": Array [
+      Object {
+        "email": "adam@dierkens.com",
+        "hash": "foo",
+        "name": "Adam Dierkens",
+      },
+    ],
+    "files": Array [],
+    "hash": "foo",
+    "labels": Array [],
+    "pullRequest": undefined,
+    "subject": "Second",
+  },
+  Object {
+    "authorEmail": "adam@dierkens.com",
+    "authorName": "Adam Dierkens",
+    "authors": Array [
+      Object {
+        "email": "adam@dierkens.com",
+        "hash": "foo",
+        "name": "Adam Dierkens",
+      },
+    ],
+    "files": Array [],
+    "hash": "foo",
+    "labels": Array [],
+    "pullRequest": undefined,
+    "subject": "Third",
+  },
+]
+`;
+
+exports[`Release getCommits should omit commits that have already been released 1`] = `
+Array [
+  Object {
+    "authorEmail": "adam@dierkens.com",
+    "authorName": "Adam Dierkens",
+    "authors": Array [
+      Object {
+        "email": "adam@dierkens.com",
+        "name": "Adam Dierkens",
+      },
+    ],
+    "files": Array [],
+    "hash": "foo",
+    "labels": Array [],
+    "pullRequest": Object {
+      "number": 124,
+    },
+    "subject": "Feature",
+  },
+]
+`;
+
 exports[`Release getCommits should resolve authors with PR commits 1`] = `
 Array [
   Object {
@@ -296,6 +358,7 @@ Array [
     "authors": Array [
       Object {
         "email": "adam@dierkens.com",
+        "hash": "foo",
         "login": "adam",
         "name": "Adam Dierkens",
         "username": "adam",
@@ -312,6 +375,7 @@ Array [
     "authorName": "Andrew Lisowski",
     "authors": Array [
       Object {
+        "hash": undefined,
         "login": "andrew",
         "name": "Andrew Lisowski",
         "username": "andrew",
@@ -348,9 +412,8 @@ Array [
     "authors": Array [
       Object {
         "email": "adam@dierkens.com",
-        "login": "adam",
+        "hash": "foo",
         "name": "Adam Dierkens",
-        "username": "adam",
       },
     ],
     "files": Array [],

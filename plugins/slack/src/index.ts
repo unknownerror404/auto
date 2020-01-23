@@ -1,5 +1,5 @@
 import { githubToSlack } from '@atomist/slack-messages';
-import { Auto, IPlugin } from '@auto-it/core';
+import { Auto, IPlugin, getCurrentBranch } from '@auto-it/core';
 import fetch from 'node-fetch';
 import join from 'url-join';
 
@@ -22,6 +22,8 @@ interface ISlackPluginOptions {
   url: string;
   /** Who to bother when posting to the channel */
   atTarget?: string;
+  /** Allow users to opt into having prereleases posted to slack */
+  publishPreRelease?: boolean;
 }
 
 /** Post your release notes to Slack during `auto release` */
@@ -39,7 +41,10 @@ export default class SlackPlugin implements IPlugin {
     } else {
       this.options = {
         url: options.url ? options.url : '',
-        atTarget: options.atTarget ? options.atTarget : 'channel'
+        atTarget: options.atTarget ? options.atTarget : 'channel',
+        publishPreRelease: options.publishPreRelease
+          ? options.publishPreRelease
+          : false
       };
     }
   }
@@ -49,11 +54,17 @@ export default class SlackPlugin implements IPlugin {
     auto.hooks.afterRelease.tapPromise(
       this.name,
       async ({ newVersion, commits, releaseNotes }) => {
-        if (!newVersion) {
+        // Avoid publishing on prerelease branches by default, but allow folks to opt in if they care to
+        const currentBranch = getCurrentBranch();
+        if (
+          currentBranch &&
+          auto.config?.prereleaseBranches?.includes(currentBranch) &&
+          !this.options.publishPreRelease
+        ) {
           return;
         }
 
-        if ('dryRun' in auto.options && auto.options.dryRun) {
+        if (!newVersion) {
           return;
         }
 
@@ -63,8 +74,11 @@ export default class SlackPlugin implements IPlugin {
           return;
         }
 
+        const skipReleaseLabels = (
+          auto.config?.labels.filter(l => l.releaseType === 'skip') || []
+        ).map(l => l.name);
         const isSkipped = head.labels.find(label =>
-          auto.release!.options.skipReleaseLabels.includes(label)
+          skipReleaseLabels.includes(label)
         );
 
         if (isSkipped) {

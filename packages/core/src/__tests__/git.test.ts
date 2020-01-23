@@ -19,6 +19,7 @@ const issuesAndPullRequests = jest.fn();
 const createLabel = jest.fn();
 const updateLabel = jest.fn();
 const addLabels = jest.fn();
+const removeLabel = jest.fn();
 const list = jest.fn();
 const lock = jest.fn();
 const errorHook = jest.fn();
@@ -49,6 +50,7 @@ jest.mock('@octokit/rest', () => {
       createLabel,
       updateLabel,
       addLabels,
+      removeLabel,
       lock,
       get,
       update
@@ -87,24 +89,13 @@ jest.mock('@octokit/graphql', () => ({
 const options = {
   owner: 'Adam Dierkens',
   repo: 'test',
-  token: 'MyToken'
+  token: 'MyToken',
+  baseBranch: 'master'
 };
 
 describe('github', () => {
   beforeEach(() => {
-    authenticate.mockClear();
-    listLabelsOnIssue.mockClear();
-    createRelease.mockClear();
-    getLatestRelease.mockClear();
-    getUser.mockClear();
-    getPr.mockClear();
-    createStatus.mockClear();
-    createComment.mockClear();
-    updateComment.mockClear();
-    listComments.mockClear();
-    deleteComment.mockClear();
-    listLabelsForRepo.mockClear();
-    addLabels.mockClear();
+    jest.clearAllMocks();
   });
 
   describe('getLabels', () => {
@@ -164,6 +155,12 @@ describe('github', () => {
     expect(addLabels).toHaveBeenCalled();
   });
 
+  test('removeLabel ', async () => {
+    const gh = new Git(options);
+    await gh.removeLabel(123, 'foo bar');
+    expect(removeLabel).toHaveBeenCalled();
+  });
+
   test('lockIssue ', async () => {
     const gh = new Git(options);
     await gh.lockIssue(123);
@@ -188,6 +185,29 @@ describe('github', () => {
     const gh = new Git(options);
 
     expect(await gh.getLatestTagInBranch()).toBeDefined();
+  });
+
+  test('getTags', async () => {
+    const gh = new Git(options);
+
+    expect(Array.isArray(await gh.getTags('master'))).toBe(true);
+  });
+
+  test('getLastTagNotInBaseBranch', async () => {
+    const getTags = jest.fn();
+    const gh = new Git(options);
+    gh.getTags = getTags;
+
+    getTags.mockReturnValueOnce(['0.1.0', '0.2.0', '0.3.0']);
+    getTags.mockReturnValueOnce([
+      '0.1.0',
+      '0.2.0',
+      '0.4.0-alpha.0',
+      '0.4.0-alpha.1',
+      '0.3.0'
+    ]);
+
+    expect(await gh.getLastTagNotInBaseBranch('alpha')).toBe('0.4.0-alpha.1');
   });
 
   test('getGitLog ', async () => {
@@ -474,7 +494,7 @@ describe('github', () => {
     });
 
     await gh.getPullRequests();
-    expect(listCommits).toHaveBeenCalled();
+    expect(list).toHaveBeenCalled();
   });
 
   describe('getUserByUsername', () => {
@@ -595,7 +615,11 @@ describe('github', () => {
   test('updateLabel', async () => {
     const gh = new Git(options);
 
-    await gh.updateLabel('release', { name: 'Foo bar', description: 'test' });
+    await gh.updateLabel({
+      name: 'Foo bar',
+      description: 'test',
+      releaseType: 'release'
+    });
 
     expect(updateLabel).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -611,7 +635,11 @@ describe('github', () => {
     test('should create a label', async () => {
       const gh = new Git(options);
 
-      await gh.createLabel('release', { name: 'Foo bar', description: 'test' });
+      await gh.createLabel({
+        name: 'Foo bar',
+        description: 'test',
+        releaseType: 'release'
+      });
 
       expect(createLabel).toHaveBeenCalledWith(
         expect.objectContaining({
