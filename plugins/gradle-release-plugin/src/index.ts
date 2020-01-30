@@ -99,7 +99,7 @@ export default class GradleReleasePluginPlugin implements IPlugin {
 
       await execPromise('git', ['add', 'gradle.properties']) 
       await execPromise('git', ['commit', '-m',
-        `"Bump to version to: ${this.newVersion} [skip ci]"`,
+        `"Bump version to: ${this.newVersion} [skip ci]"`,
         '--no-verify'
       ])
 
