@@ -17,6 +17,8 @@ import Auto, {
   INextOptions
 } from '@auto-it/core';
 
+console.log(require.resolve('@auto-it/core'))
+
 /** Spin up the "auto" node API and provide it the parsed CLI args. */
 export async function run(command: string, args: ApiOptions) {
   const auto = new Auto(args);

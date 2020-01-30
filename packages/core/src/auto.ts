@@ -942,6 +942,7 @@ export default class Auto {
       isPrereleaseBranch,
       publishPrerelease
     });
+
     const publishInfo =
       isBaseBrach && shouldGraduate
         ? await this.publishFullRelease(options)
