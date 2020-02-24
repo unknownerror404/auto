@@ -28,7 +28,7 @@ export interface IGradleReleasePluginPluginOptions {
   gradleOptions?: Array<string>;
 
   /** */
-  versionOptions?: IVersionOptions
+  versionOptions?: Required<IVersionOptions>;
  
   /** Tagging by default, but can be turned off */
 
@@ -49,7 +49,7 @@ async function getPreviousVersion(path: string): Promise<IGradleProperties> {
 
     if (version && versionCode) {
       return {
-        versionCode,
+        versionCode: versionCode,
         versionName: version
       }
     }
@@ -75,7 +75,8 @@ export default class GradleReleasePluginPlugin implements IPlugin {
       gradleCommand: options?.gradleCommand
         ? path.join(process.cwd(), options.gradleCommand)
         : '/usr/bin/gradle',
-      gradleOptions: options.gradleOptions || [] 
+      gradleOptions: options.gradleOptions || [],
+      versionOptions: options.versionOptions || { bumpVersionCodeOnly: false, noTag: false }
     };
   }
 
@@ -110,6 +111,8 @@ export default class GradleReleasePluginPlugin implements IPlugin {
       const {versionName, versionCode} = await getPreviousVersion(
         this.options.versionFile
       );
+      auto.logger.log.info(`Found Version Name=[${version}] Version Code=[${versionCode}]`);
+
       const newVersion = inc(versionName, version as ReleaseType) || '';
       if (!newVersion) {
         throw new Error(
