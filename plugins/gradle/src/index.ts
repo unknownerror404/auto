@@ -9,6 +9,14 @@ import { parse } from 'dot-properties';
 /** Global functions for usage in module */
 const logPrefix = '[Gradle-Release-Plugin]';
 
+export interface IVersionOptions {
+  /** When this option is true, only the version code will be bumped */
+  bumpVersionCodeOnly?: boolean;
+
+  /** Don't tag the commit or create a release */
+  noTag?: boolean;
+}
+
 export interface IGradleReleasePluginPluginOptions {
   /** The file that contains the version string in it. */
   versionFile?: string;
@@ -18,16 +26,32 @@ export interface IGradleReleasePluginPluginOptions {
 
   /** A list of gradle command customizations to pass to gradle */
   gradleOptions?: Array<string>;
+
+  /** */
+  versionOptions?: IVersionOptions
+ 
+  /** Tagging by default, but can be turned off */
+
+}
+
+interface IGradleProperties {
+  /** A string that represents the version code */
+  versionCode?: string;
+  /** A string that represents the version name or public version */
+  versionName: string;
 }
 
 /** Retrieves a previous version from gradle.properties */
-async function getPreviousVersion(path: string): Promise<string> {
+async function getPreviousVersion(path: string): Promise<IGradleProperties> {
   try {
     const data = await fs.readFile(path, 'utf-8');
-    const { version } = parse(data);
+    const { version, versionCode } = parse(data);
 
-    if (version) {
-      return version;
+    if (version && versionCode) {
+      return {
+        versionCode,
+        versionName: version
+      }
     }
   } catch (error) {}
 
@@ -77,30 +101,39 @@ export default class GradleReleasePluginPlugin implements IPlugin {
     });
 
     auto.hooks.getPreviousVersion.tapPromise(this.name, () => {
-      return getPreviousVersion(this.options.versionFile);
+      return getPreviousVersion(this.options.versionFile).then(props => {
+        return props.versionName
+      });
     });
 
     auto.hooks.version.tapPromise(this.name, async (version: string) => {
-      const previousVersion = await getPreviousVersion(
+      const {versionName, versionCode} = await getPreviousVersion(
         this.options.versionFile
       );
-      const newVersion = inc(previousVersion, version as ReleaseType) || '';
+      const newVersion = inc(versionName, version as ReleaseType) || '';
       if (!newVersion) {
         throw new Error(
-          `Could not increment previous version: ${previousVersion}`
+          `Could not increment previous version: ${versionName}`
         );
       }
 
-      await execPromise(this.options.gradleCommand, [
-        'release',
-        '-Prelease.useAutomaticVersion=true',
-        `-Prelease.releaseVersion=${previousVersion}`,
-        `-Prelease.newVersion=${newVersion}`,
-        '-x createReleaseTag',
-        '-x preTagCommit',
-        '-x commitNewVersion',
-        ...this.options.gradleOptions
-      ]);
+      // default -- run if normal bumping is on versus internal code bump only
+      if (this.options.versionOptions.bumpVersionCodeOnly) {
+        auto.logger.log.info('Bumping Version Code')
+
+      } else {
+        auto.logger.log.info('Bumping Version Name & Version Code')
+        await execPromise(this.options.gradleCommand, [
+          'release',
+          '-Prelease.useAutomaticVersion=true',
+          `-Prelease.releaseVersion=${versionName}`,
+          `-Prelease.newVersion=${newVersion}`,
+          '-x createReleaseTag',
+          '-x preTagCommit',
+          '-x commitNewVersion',
+          ...this.options.gradleOptions
+        ]);
+      }
 
       await execPromise('git', ['add', 'gradle.properties']);
       await execPromise('git', [
